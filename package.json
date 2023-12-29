@@ -1,0 +1,35 @@
+{
+  "name": "so2-demo-02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "npx nodemon index.ts",
+    "build": "node build-script.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.156",
+    "@mui/material": "^5.15.0",
+    "@mui/x-date-pickers": "^7.0.0-alpha.5",
+    "@prisma/client": "^5.3.1",
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.17.2",
+    "http-proxy-middleware": "^2.0.6",
+    "jsonwebtoken": "^9.0.2",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/node": "^17.0.17",
+    "nodemon": "^2.0.15",
+    "prisma": "^5.3.1"
+  }
+}
