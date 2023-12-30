@@ -96,9 +96,11 @@ const Sarjataulukko: React.FC = () => {
     <TableRow key={joukkue.teamName.default} sx={{ bgcolor: index % 2 ? 'grey.100' : 'white' }}>
       <TableCell>{index + 1}</TableCell>
       <TableCell>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/teams/${joukkue.teamCode}`)}>
           <JoukkueenLogo teamCode={joukkue.teamCode} width='30px' />
-          <span style={{ marginLeft: '8px', fontWeight: 'bold'}}>{joukkue.teamName.default}</span>
+          <Typography sx={{ marginLeft: '8px', fontWeight: 'bold' }}>
+            {joukkue.teamName.default}
+          </Typography>
         </Box>
       </TableCell>
       <TableCell align="right">{joukkue.gamesPlayed}</TableCell>

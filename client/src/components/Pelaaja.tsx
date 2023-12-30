@@ -20,33 +20,6 @@ interface PelaajaData {
   birthCity: string;
   birthCountry: string;
   shootsCatches: string;
-  // Nykyisen kauden tilastot
-  seasonStats: {
-    // Kenttäpelaajien tilastot
-    gamesPlayed?: number;
-    goals?: number;
-    assists?: number;
-    points?: number;
-    plusMinus?: number;
-    shots?: number;
-    shootingPctg?: number | undefined;
-    pim?: number; // Penalty minutes
-    gameWinningGoals?: number;
-    otGoals?: number;
-    powerPlayGoals?: number;
-    powerPlayPoints?: number;
-    shortHandedGoals?: number;
-    shortHandedPoints?: number;
-
-    // Maalivahtien tilastot
-    wins?: number;
-    losses?: number;
-    ties?: number;
-    otLosses?: number;
-    shutouts?: number;
-    goalsAgainstAvg?: number;
-    savePctg?: number;
-  };
   seasonTotals: any[];
   draftDetails: {
     year: number;
@@ -55,11 +28,7 @@ interface PelaajaData {
     overallPick: number;
   };
   featuredStats: {
-    season: number;
     regularSeason: {
-      subSeason: {
-        // ... (nykyisen kauden tilastot)
-      };
       career: {
         gamesPlayed: number;
         goals: number;
@@ -173,18 +142,30 @@ const Pelaaja: React.FC = () => {
         </Button>
         {pelaaja && (
           <Card>
-            <Grid container spacing={2} alignItems="center">
+            <Grid container spacing={2} alignItems="center" borderBottom={'5px solid rgba(224, 224, 224, 1)'}>
               {/* Pelaajan kuva */}
               <Grid item xs={3}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', background: "#fff"}}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center',
+                  borderRadius: '20px', 
+                  maxWidth: '225px',
+                  marginLeft: '30px',
+                  background: "#fff"}}>
                   <img src={pelaaja.headshot} alt={`Kuva pelaajasta ${pelaaja.fullName}`} style={{ height: '200px' }} />
                 </Box>
               </Grid>
 
               {/* Perustiedot */}
               <Grid item xs={3}>
+                <Typography variant="h4" sx={{ 
+                  fontWeight: 'bold', 
+                  whiteSpace: 'nowrap',
+                  marginBottom: '5px' 
+                }}>
+                  {pelaaja.fullName}
+                </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold' }}>{pelaaja.fullName}</Typography>
                   <Typography variant="body1">Pituus: {pelaaja.heightInCentimeters} cm</Typography>
                   <Typography variant="body1">Paino: {pelaaja.weightInKilograms} kg</Typography>
                   <Typography variant="body1">Syntymäaika: {pelaaja.birthDate}</Typography>
@@ -199,6 +180,7 @@ const Pelaaja: React.FC = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '16px' }}>
                   {pelaaja.draftDetails ? (
                     <>
+                      <Typography variant='h6' marginTop={'50px'}>Draft-tilastot:</Typography>
                       <Typography variant="body1">Draft-vuosi: {pelaaja.draftDetails.year}</Typography>
                       <Typography variant="body1">Kierros: {pelaaja.draftDetails.round}</Typography>
                       <Typography variant="body1">Valinta kierroksella: {pelaaja.draftDetails.pickInRound}</Typography>
@@ -219,12 +201,12 @@ const Pelaaja: React.FC = () => {
             </Grid>
 
             <Box sx={{ bgcolor: themeToUse.palette.primary.main, color: themeToUse.palette.primary.contrastText, paddingTop:"10px" }}>
-              <Typography variant="h6">
+              <Typography variant="h6" marginLeft={'25px'}>
                 Uran tilastot
               </Typography>
             </Box>
 
-            <Box sx={{ overflowX: 'auto' }}>
+            <Box sx={{ overflowX: 'auto'}}>
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>
@@ -249,7 +231,7 @@ const Pelaaja: React.FC = () => {
                       <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.gamesPlayed}</TableCell>
                       <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.goals}</TableCell>
                       <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.assists}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.points}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 'bold'}}>{pelaaja.featuredStats.regularSeason.career.points}</TableCell>
                       <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shots}</TableCell>
                       <TableCell align="right">{(pelaaja.featuredStats.regularSeason.career.shootingPctg * 100).toFixed(1)}%</TableCell>
                       <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.pim}</TableCell>
@@ -265,8 +247,8 @@ const Pelaaja: React.FC = () => {
               </Table>
             </Box>
 
-            <Box sx={{ bgcolor: themeToUse.palette.primary.main, color: themeToUse.palette.primary.contrastText, paddingTop:"10px" }}>
-              <Typography variant="h6">
+            <Box sx={{ borderTop:'5px solid rgba(224, 224, 224, 1)', bgcolor: themeToUse.palette.primary.main, color: themeToUse.palette.primary.contrastText, paddingTop:"10px" }}>
+              <Typography variant="h6" marginLeft={'25px'}>
                 Tilastot kausittain
               </Typography>
             </Box>
@@ -339,8 +321,8 @@ const Pelaaja: React.FC = () => {
                           <TableCell align="right">{season.leagueAbbrev}</TableCell>
                           <TableCell align="right">{season.gamesPlayed}</TableCell>
                           <TableCell align="right">{season.goals}</TableCell>
-                          <TableCell align="right">{season.assists}</TableCell>
-                          <TableCell align="right" sx={{ fontWeight: 'bold' }}>{season.points}</TableCell>
+                          <TableCell align="right" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)'}}>{season.assists}</TableCell>
+                          <TableCell align="right" sx={{ fontWeight: 'bold', borderRight: '1px solid rgba(224, 224, 224, 1)'}}>{season.points}</TableCell>
                           <TableCell align="right">{season.plusMinus}</TableCell>
                           <TableCell align="right">{season.shots}</TableCell>
                           <TableCell align="right">{season.shootingPctg ? (season.shootingPctg * 100).toFixed(1) + '%' : 'N/A'}</TableCell>
