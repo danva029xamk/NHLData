@@ -16,7 +16,7 @@ const defaultTheme = createTheme({
       main: '#525252',
     },
     background: {
-      default: '#h4h4h4',
+      default: '#d3d3d3',
       paper: '#fff',
     },
     text: {

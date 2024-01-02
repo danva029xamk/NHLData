@@ -10,7 +10,7 @@ import teamColors from './constants/colours'; // Oletetaan että tämä on polku
 
 const App: React.FC = (): React.ReactElement => {
   const location = useLocation();
-  // Oletetaan, että joukkueen koodi on saatavilla URL:sta '/teams/:teamCode'
+
   const teamCode = location.pathname.split('/')[2] || 'default'; // Jos ei joukkuetta, käytetään oletusteemaa
   
   // Luodaan muistissa pidettävä joukkueen teema, jotta se ei luo uutta joka renderöinnillä
@@ -29,7 +29,7 @@ const App: React.FC = (): React.ReactElement => {
               <Route path="/" element={<JoukkueenValinta />} />
               <Route path="/standings" element={<Sarjataulukko />} />
               <Route path="/teams/:teamCode" element={<HaeRosteri />} />
-              <Route path="/players/:id" element={<Pelaaja />} />
+              <Route path="/teams/:teamCode/players/:id" element={<Pelaaja />} />
             </Routes>
         </Container>
       </Box>

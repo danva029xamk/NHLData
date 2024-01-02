@@ -3,7 +3,38 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import defaultTheme, { getTeamTheme } from '../themes';
 import teamColors from '../constants/colours';
-import { Card, Typography, Table, TableBody, TableCell, TableHead, TableRow, ThemeProvider, Button, Box, Grid } from '@mui/material';
+import { Card, Typography, Table, TableBody, TableCell, TableHead, TableRow, ThemeProvider, Button, Box, Grid, FormControl, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+
+interface SeasonTotal {
+  gameTypeId: number;
+  season: number;
+  formattedSeason?: string;
+  teamName: {
+    default: string;
+  };
+  leagueAbbrev: string;
+  gamesPlayed: number;
+  wins?: number;
+  losses?: number;
+  otLosses?: number;
+  shutouts?: number;
+  goalsAgainstAvg?: number;
+  savePctg?: number;
+  goals?: number;
+  assists?: number;
+  points?: number;
+  plusMinus?: number;
+  pim?: number;
+  gameWinningGoals?: number;
+  otGoals?: number;
+  shots?: number;
+  shootingPctg?: number;
+  powerPlayGoals?: number;
+  powerPlayPoints?: number;
+  shortHandedGoals?: number;
+  shortHandedPoints?: number;
+  // lisää muita kenttiä tarpeen mukaan...
+}
 
 interface PelaajaData {
   id: number;
@@ -20,7 +51,7 @@ interface PelaajaData {
   birthCity: string;
   birthCountry: string;
   shootsCatches: string;
-  seasonTotals: any[];
+  seasonTotals: SeasonTotal[];
   draftDetails: {
     year: number;
     round: number;
@@ -54,7 +85,9 @@ interface PelaajaData {
 const Pelaaja: React.FC = () => {
   const [pelaaja, setPelaaja] = useState<PelaajaData | null>(null);
   const [virhe, setVirhe] = useState<string>('');
-  const [theme, setTheme] = useState<any | undefined>(undefined);
+  const [theme, setTheme] = useState<any>(defaultTheme);
+  const [näytettävätTilastot, setNäytettävätTilastot] = useState<SeasonTotal[]>([]);
+  const [selectedGameTypeId, setSelectedGameTypeId] = useState<number>(2); // 2 runkosarjalle, 3 playoffeille
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -65,6 +98,21 @@ const Pelaaja: React.FC = () => {
     return formatted;
   }
 
+
+  const handleBackClick = () => {
+    navigate(`/teams/${pelaaja?.currentTeamAbbrev}`); // Ohjaa käyttäjän takaisin edelliselle sivulle
+  };
+
+  const handleGameTypeChange = (event: SelectChangeEvent<number>) => {
+    const valittuGameTypeId = event.target.value as number;
+    setSelectedGameTypeId(valittuGameTypeId);
+  
+    if (pelaaja) {
+      const suodatetutTilastot = pelaaja.seasonTotals.filter(season => season.gameTypeId === valittuGameTypeId);
+      setNäytettävätTilastot(suodatetutTilastot);
+    }
+  };
+
   useEffect(() => {
     const haePelaajanTiedot = async () => {
       try {
@@ -72,12 +120,10 @@ const Pelaaja: React.FC = () => {
         const pelaajanData = vastaus.data;
         const joukkueKoodi = pelaajanData.currentTeamAbbrev as keyof typeof teamColors;
 
-        console.log("Pelaajan tiedot:", pelaajanData);
-
-        if (teamColors[joukkueKoodi]) {
+        if (joukkueKoodi) {
           setTheme(getTeamTheme(joukkueKoodi));
         }
-    
+
         const pelaaja = {
           id: pelaajanData.playerId,
           fullName: `${pelaajanData.firstName.default} ${pelaajanData.lastName.default}`,
@@ -101,9 +147,6 @@ const Pelaaja: React.FC = () => {
         if (pelaaja) {
           // Järjestä tilastot uusimmasta vanhimpaan
           pelaaja.seasonTotals.sort((a: { season: number }, b: { season: number }) => b.season - a.season);
-      
-          // Suodata pois playoff-tilastot
-          pelaaja.seasonTotals = pelaaja.seasonTotals.filter((season: { gameTypeId: number }) => season.gameTypeId === 2);
 
           pelaaja.seasonTotals.forEach((season: { season: number; formattedSeason?: string }) => {
             season.formattedSeason = formatSeason(season.season.toString());
@@ -123,25 +166,28 @@ const Pelaaja: React.FC = () => {
     if (id) {
       haePelaajanTiedot();
     }
-  }, [id]); 
+  }, [id]);
 
+  console.log(theme);
 
-  const themeToUse = theme || defaultTheme;
+  useEffect(() => {
+    if (pelaaja) {
+      const suodatetutTilastot = pelaaja.seasonTotals.filter(season => season.gameTypeId === selectedGameTypeId);
+      setNäytettävätTilastot(suodatetutTilastot);
+    }
+  }, [pelaaja, selectedGameTypeId]);
+  
 
   const isGoalie = pelaaja?.position === "G";
 
-  const handleBackClick = () => {
-    navigate(`/teams/${pelaaja?.currentTeamAbbrev}`); // Ohjaa käyttäjän takaisin edelliselle sivulle
-  };
-
   return  (
-    <ThemeProvider theme={themeToUse}>
+    <ThemeProvider theme={theme}>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
         <Button variant="contained" onClick={handleBackClick} style={{ marginBottom: '20px' }}>
           Palaa Takaisin
         </Button>
         {pelaaja && (
-          <Card>
+          <Card sx={{ border: '1px solid rgba(224, 224, 224, 1)', boxShadow: 3 }}>
             <Grid container spacing={2} alignItems="center" borderBottom={'5px solid rgba(224, 224, 224, 1)'}>
               {/* Pelaajan kuva */}
               <Grid item xs={3}>
@@ -150,7 +196,7 @@ const Pelaaja: React.FC = () => {
                   justifyContent: 'center',
                   borderRadius: '20px', 
                   maxWidth: '225px',
-                  marginLeft: '30px',
+                  margin: '20px 10px 20px 30px',
                   background: "#fff"}}>
                   <img src={pelaaja.headshot} alt={`Kuva pelaajasta ${pelaaja.fullName}`} style={{ height: '200px' }} />
                 </Box>
@@ -200,7 +246,7 @@ const Pelaaja: React.FC = () => {
               </Grid>
             </Grid>
 
-            <Box sx={{ bgcolor: themeToUse.palette.primary.main, color: themeToUse.palette.primary.contrastText, paddingTop:"10px" }}>
+            <Box sx={{ bgcolor: theme.palette.primary.main, color: theme.palette.primary.contrastText, paddingTop:"10px" }}>
               <Typography variant="h6" marginLeft={'25px'}>
                 Uran tilastot
               </Typography>
@@ -247,10 +293,34 @@ const Pelaaja: React.FC = () => {
               </Table>
             </Box>
 
-            <Box sx={{ borderTop:'5px solid rgba(224, 224, 224, 1)', bgcolor: themeToUse.palette.primary.main, color: themeToUse.palette.primary.contrastText, paddingTop:"10px" }}>
+            <Box sx={{ borderTop:'5px solid rgba(224, 224, 224, 1)', bgcolor: theme.palette.primary.main, color: theme.palette.primary.contrastText, paddingTop:"10px" }}>
+              
               <Typography variant="h6" marginLeft={'25px'}>
                 Tilastot kausittain
               </Typography>
+
+              <Box marginLeft={'25px'} marginBottom={'15px'}>
+                <FormControl variant='outlined' sx={{ backgroundColor: 'white', borderRadius: 1, marginBottom: '10px' }}>
+                  <Select
+                    labelId="gametype-label"
+                    id="gametype-select"
+                    value={selectedGameTypeId}
+                    onChange={handleGameTypeChange}
+                    sx={{ color: 'black', '.MuiOutlinedInput-notchedOutline': { borderColor: 'black' } }}
+                    MenuProps={{
+                      PaperProps: {
+                        sx: {
+                          backgroundColor: 'white', // Asettaa pudotusvalikon taustan valkoiseksi
+                          color: 'black' // Asettaa pudotusvalikon tekstin mustaksi
+                        }
+                      }
+                    }}
+                  >
+                      <MenuItem value={2} sx={{ color: 'black' }}>Runkosarja</MenuItem>
+                      <MenuItem value={3} sx={{ color: 'black' }}>Playoffit</MenuItem>
+                    </Select>
+                </FormControl>
+              </Box>
             </Box>
 
             <Box sx={{ overflowX: 'auto' }}>
@@ -297,7 +367,7 @@ const Pelaaja: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {pelaaja.seasonTotals.map((season, index) => (
+                  {näytettävätTilastot.map((season, index) => (
                     <TableRow key={index}>
                       {isGoalie ? (
                         // Maalivahdin tilastojen arvot

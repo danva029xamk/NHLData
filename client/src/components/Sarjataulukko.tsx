@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Box, Typography, Button } from '@mui/material';
 import JoukkueenLogo from './JoukkueenLogo';
+import logot from '../constants/logot';
 import { useNavigate } from 'react-router-dom';
 
 interface Joukkue {
@@ -70,11 +71,11 @@ const Sarjataulukko: React.FC = () => {
   const divisioonat: KonferenssitJaDivisioonat = {};
 
 
-  const tableHeadCells = (
-    <>
+  const tableHeadRow= (
+    <TableRow sx={{ bgcolor: "#F0F0F0" }}>
       <TableCell></TableCell>
-      <TableCell style={{ minWidth: '178px' }}>Joukkueen nimi</TableCell>
-      <TableCell style={{ minWidth: '100px' }} align="right">Pelatut Ottelut</TableCell>
+      <TableCell style={{ minWidth: '200px' }}>Joukkueen nimi</TableCell>
+      <TableCell style={{}} align="right">Pelatut Ottelut</TableCell>
       <TableCell style={{}} align="right">Voitot</TableCell>
       <TableCell style={{}} align="right">Häviöt</TableCell>
       <TableCell style={{}} align="right">JA-häviöt</TableCell>
@@ -89,7 +90,7 @@ const Sarjataulukko: React.FC = () => {
       <TableCell style={{}} align="right">Vieras-voitot</TableCell>
       <TableCell style={{}} align="right">Vieras-tappiot</TableCell>
       <TableCell style={{}} align="right">Vieras JA-tappiot</TableCell>
-    </>
+    </TableRow>
   );
 
   const renderTableRow = (joukkue: Joukkue, index: number) => (
@@ -143,11 +144,13 @@ const Sarjataulukko: React.FC = () => {
               Palaa Etusivulle
         </Button>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, pl: 5, pt: 1 }}>
-          <Typography variant="h4" sx={{ fontFamily: 'Impact, sans-serif', fontWeight: 'bold' }}>NHL</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 3 }}>
+            <img src={logot.NHL} alt="NHL Logo" style={{ height: '100px' }}/>
+          </Box>
         </Box>
           <Table>
             <TableHead>
-              <TableRow>{tableHeadCells}</TableRow>
+              {tableHeadRow}
             </TableHead>
             <TableBody>
               {joukkueet.map((joukkue, index) => renderTableRow(joukkue, index))}
@@ -159,7 +162,7 @@ const Sarjataulukko: React.FC = () => {
             <Typography variant="h6" sx={{ p: 2 }}>{conference} Conference</Typography>
             <Table>
               <TableHead>
-                <TableRow>{tableHeadCells}</TableRow>
+                {tableHeadRow}
               </TableHead>
               <TableBody>
                 {konferenssit[conference].map((joukkue, index) => renderTableRow(joukkue, index))}
@@ -172,7 +175,7 @@ const Sarjataulukko: React.FC = () => {
             <Typography variant="h6" sx={{ p: 2 }}>{division} Division</Typography>
             <Table>
               <TableHead>
-                <TableRow>{tableHeadCells}</TableRow>
+                {tableHeadRow}
               </TableHead>
               <TableBody>
                 {divisioonat[division].map((joukkue, index) => renderTableRow(joukkue, index))}

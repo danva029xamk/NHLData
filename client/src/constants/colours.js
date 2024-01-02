@@ -25,8 +25,8 @@ const teamColors = {
     SEA: { primary: '#99D9D9', secondary: '#001628', tertiary: '#FFFFFF' },
     SJS: { primary: '#006D75', secondary: '#EA7200', tertiary: '#FFFFFF' },
     STL: { primary: '#FCB514', secondary: '#002F87', tertiary: '#FFFFFF' },
-    TBL: { primary: '#FFFFFF', secondary: '#002868', tertiary: '#C0C0C0' },
-    TOR: { primary: '#FFFFFF', secondary: '#003366', tertiary: '#C0C0C0' },
+    TBL: { primary: '#FFFFFF', secondary: '#002868', tertiary: '#FFFFFF' },
+    TOR: { primary: '#FFFFFF', secondary: '#003366', tertiary: '#FFFFFF' },
     VAN: { primary: '#001F5B', secondary: '#00843D', tertiary: '#FFFFFF' },
     VGK: { primary: '#B4975A', secondary: '#333F42', tertiary: '#FFFFFF' },
     WSH: { primary: '#041E42', secondary: '#C8102E', tertiary: '#FFFFFF' },
@@ -34,4 +34,3 @@ const teamColors = {
   };
   
   export default teamColors;
-  

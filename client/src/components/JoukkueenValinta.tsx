@@ -22,13 +22,15 @@ const JoukkueenValinta: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', padding: 3 }}>
-      <Typography variant='h3' sx={{ marginBottom: 3, textAlign: 'center' }}>NHL Dataa</Typography>
+    <Box sx={{ width: '100%', padding: 3, minHeight: '100vh' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 3 }}>
+        <img src={logot.NHL} alt="NHL Logo" style={{ height: '100px' }}/>
+      </Box>
       <Button variant="contained" color="secondary" onClick={haeSarjataulukko} sx={{ width: '100%', mb: 3 }}>
         Katso Sarjataulukko
       </Button>
       <Typography variant='h5' sx={{ marginBottom: 2, textAlign: 'center' }}>Joukkueen kokoonpanot</Typography>
-      <FormControl fullWidth sx={{ marginBottom: 2 }}>
+      <FormControl fullWidth sx={{ marginBottom: 2, bgcolor: '#F5F5F5'}}>
         <InputLabel id="teamCode-label">Joukkue</InputLabel>
         <Select
           labelId="teamCode-label"

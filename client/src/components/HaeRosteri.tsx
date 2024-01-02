@@ -80,7 +80,7 @@ const HaeRosteri: React.FC = () => {
   };
 
   const handlePlayerClick = (playerId: number) => {
-    navigate(`/players/${playerId}`);
+    navigate(`/teams/${teamCode}/players/${playerId}`);
   };
 
   useEffect(() => {
@@ -107,41 +107,58 @@ const HaeRosteri: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
+      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', border: '1px solid rgba(224, 224, 224, 1)', boxShadow: 3 }}>
         <Grid container spacing={2} sx={{ padding: 3 }}>
           <Grid item xs={12}>
             <Button variant="contained" onClick={handleBackClick}>
               Palaa Etusivulle
             </Button>
-            <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', mt: 2, color: 'text.primary', fontFamily: "Times New Roman"}}>        
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                mt: 2, 
+                color: (
+                   teamCode === 'NSH' || 
+                   teamCode === 'STL' || 
+                   teamCode === 'TBL' || 
+                   teamCode === 'TOR' ||
+                   teamCode === 'BOS' ||
+                   teamCode === 'SEA' || 
+                   teamCode === 'PIT') 
+                  ? '#000000' : '#FFFFFF', 
+                fontFamily: "Times New Roman"
+              }}
+            >      
               <JoukkueenLogo teamCode={teamCode}/>
               <span>{joukkueenNimi}</span>
             </Typography>
           </Grid>
           <Grid item xs={12}>
             {/* Kenttäpelaajien taulukko */}
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ border: '1px solid rgba(224, 224, 224, 1)', boxShadow: 3, mb: 4 }}>
               <Table sx={{ borderCollapse: 'collapse' }}>
-                  <TableHead>
+                  <TableHead sx={{ bgcolor: '#D3D3D3',  border: '2px solid rgba(0, 0, 0, 1)', boxShadow: 3, mb: 4 }}>
                       <TableRow>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Kuva</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Nimi</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Pos</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>GP</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>G</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>A</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Pts</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>+/-</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Pen. min.</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>PPG</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>SHG</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>GWG</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>OTG</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Shots</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Sht%</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Avg. Time/Ice</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>Avg. Shifts/G</TableCell>
-                          <TableCell sx={{ fontWeight: 'bold'}}>FO%</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Kuva</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Nimi</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Pos</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>GP</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>G</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>A</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Pts</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>+/-</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Pen. min.</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>PPG</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>SHG</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>GWG</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>OTG</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Shots</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Sht%</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Avg. Time/Ice</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Avg. Shifts/G</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>FO%</TableCell>
                       </TableRow>
                   </TableHead>
                   <TableBody>
@@ -195,28 +212,28 @@ const HaeRosteri: React.FC = () => {
             </TableContainer>
 
             {/* Maalivahtien taulukko */}
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ border: '1px solid rgba(224, 224, 224, 1)', boxShadow: 3, mb: 4 }}>
                 <Table>
-                    <TableHead>
+                    <TableHead sx={{ bgcolor: '#D3D3D3', border: '2px solid rgba(0, 0, 0, 1)', boxShadow: 3, mb: 4 }}>
                         <TableRow>
-                            <TableCell>Kuva</TableCell>
-                            <TableCell>Nimi</TableCell>
-                            <TableCell>Pelatut Pelit</TableCell>
-                            <TableCell>Aloitetut Pelit</TableCell>
-                            <TableCell>Voitot</TableCell>
-                            <TableCell>Häviöt</TableCell>
-                            <TableCell>JA-häviöt</TableCell>
-                            <TableCell>GAA</TableCell>
-                            <TableCell>Torjunta%</TableCell>
-                            <TableCell>Laukaukset Vastaan</TableCell>
-                            <TableCell>Torjunnat</TableCell>
-                            <TableCell>Päästetyt Maalit</TableCell>
-                            <TableCell>Nollapelit</TableCell>
-                            <TableCell>Maalit</TableCell>
-                            <TableCell>Syötöt</TableCell>
-                            <TableCell>Pisteet</TableCell>
-                            <TableCell>Jäähymin.</TableCell>
-                            <TableCell>Aika Jäällä</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Kuva</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Nimi</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Pelatut Pelit</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Aloitetut Pelit</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Voitot</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Häviöt</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>JA-häviöt</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>GAA</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Torjunta%</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Laukaukset Vastaan</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Torjunnat</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Päästetyt Maalit</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Nollapelit</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Maalit</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Syötöt</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Pisteet</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Jäähymin.</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Aika Jäällä</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

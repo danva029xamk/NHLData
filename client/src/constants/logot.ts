@@ -30,8 +30,8 @@ const logot: { [key: string]: string } = {
     VAN: 'https://assets.nhle.com/logos/nhl/svg/VAN_light.svg',
     VGK: 'https://assets.nhle.com/logos/nhl/svg/VGK_light.svg',
     WSH: 'https://assets.nhle.com/logos/nhl/svg/WSH_light.svg',
-    WPG: 'https://assets.nhle.com/logos/nhl/svg/WPG_light.svg'
+    WPG: 'https://assets.nhle.com/logos/nhl/svg/WPG_light.svg',
+    NHL: 'https://assets.nhle.com/logos/nhl/svg/NHL_dark.svg'
   };
   
 export default logot;
-  
