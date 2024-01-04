@@ -7,7 +7,6 @@ import joukkueet from '../constants/joukkueet';
 import JoukkueenLogo from './JoukkueenLogo';
 import { getTeamTheme } from '../themes';
 
-// Pelaaja-tyyppiä voidaan tarvittaessa laajentaa uusilla kentillä
 interface Pelaaja {
   playerId: number;
   headshot: string;

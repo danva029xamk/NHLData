@@ -22,7 +22,7 @@ const JoukkueenValinta: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', padding: 3, minHeight: '100vh' }}>
+    <Box sx={{ padding: 3, minHeight: '100vh', mx: 'auto', maxWidth: 'sm' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 3 }}>
         <img src={logot.NHL} alt="NHL Logo" style={{ height: '100px' }}/>
       </Box>

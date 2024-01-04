@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import teamColors from './constants/colours';
 
 type TeamColors = {
@@ -34,11 +34,13 @@ const defaultTheme = createTheme({
     },
   },
 });
+
+const responsiveDefaultTheme = responsiveFontSizes(defaultTheme);
   
 export const getTeamTheme = (teamCode: keyof typeof teamColors) => {
   const colors: TeamColors = teamColors[teamCode];
 
-  return createTheme({
+  let teamTheme = createTheme({
     palette: {
       primary: {
         main: colors.primary,
@@ -67,6 +69,10 @@ export const getTeamTheme = (teamCode: keyof typeof teamColors) => {
 
     },
   });
+
+  teamTheme = responsiveFontSizes(teamTheme);
+
+  return teamTheme;
 };
     
-export default defaultTheme;
+export default responsiveDefaultTheme;

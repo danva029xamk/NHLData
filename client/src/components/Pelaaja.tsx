@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import defaultTheme, { getTeamTheme } from '../themes';
+import responsiveDefaultTheme, { getTeamTheme } from '../themes';
 import teamColors from '../constants/colours';
-import { Card, Typography, Table, TableBody, TableCell, TableHead, TableRow, ThemeProvider, Button, Box, Grid, FormControl, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Card, Typography, Table, TableBody, TableCell, TableHead, TableRow, ThemeProvider, Button, Box, FormControl, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
 interface SeasonTotal {
   gameTypeId: number;
@@ -33,7 +33,6 @@ interface SeasonTotal {
   powerPlayPoints?: number;
   shortHandedGoals?: number;
   shortHandedPoints?: number;
-  // lisää muita kenttiä tarpeen mukaan...
 }
 
 interface PelaajaData {
@@ -85,7 +84,7 @@ interface PelaajaData {
 const Pelaaja: React.FC = () => {
   const [pelaaja, setPelaaja] = useState<PelaajaData | null>(null);
   const [virhe, setVirhe] = useState<string>('');
-  const [theme, setTheme] = useState<any>(defaultTheme);
+  const [theme, setTheme] = useState<any>(responsiveDefaultTheme);
   const [näytettävätTilastot, setNäytettävätTilastot] = useState<SeasonTotal[]>([]);
   const [selectedGameTypeId, setSelectedGameTypeId] = useState<number>(2); // 2 runkosarjalle, 3 playoffeille
   const { id } = useParams<{ id: string }>();
@@ -168,8 +167,6 @@ const Pelaaja: React.FC = () => {
     }
   }, [id]);
 
-  console.log(theme);
-
   useEffect(() => {
     if (pelaaja) {
       const suodatetutTilastot = pelaaja.seasonTotals.filter(season => season.gameTypeId === selectedGameTypeId);
@@ -187,72 +184,96 @@ const Pelaaja: React.FC = () => {
           Palaa Takaisin
         </Button>
         {pelaaja && (
-          <Card sx={{ border: '1px solid rgba(224, 224, 224, 1)', boxShadow: 3 }}>
-            <Grid container spacing={2} alignItems="center" borderBottom={'5px solid rgba(224, 224, 224, 1)'}>
-              {/* Pelaajan kuva */}
-              <Grid item xs={3}>
-                <Box sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'center',
-                  borderRadius: '20px', 
-                  maxWidth: '225px',
-                  margin: '20px 10px 20px 30px',
-                  background: "#fff"}}>
-                  <img src={pelaaja.headshot} alt={`Kuva pelaajasta ${pelaaja.fullName}`} style={{ height: '200px' }} />
-                </Box>
-              </Grid>
+          <Card sx={{ border: '3px solid rgba(224, 224, 224, 1)', boxShadow: 10 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              borderBottom: '5px solid rgba(224, 224, 224, 1)',
+              alignItems: 'center',
+              padding: 2,
+              '& > *': {
+                margin: '10px',
+                flex: '1 1 0', // Kaikille lapsielementeille annetaan mahdollisuus kasvaa ja kutistua tasaisesti
+                // flex-arvo '1 1 0' tarkoittaa: kasvaa yhtä suureksi, kutistu tarvittaessa, lähtökohta 0%
+              },
+            }}
+          >
+            {/* Pelaajan kuva */}
+            <Box
+              sx={{
+                flex: '1 1 auto',
+                maxWidth: '225px',
+                minWidth: '125px',
+                margin: '10px',
+                boxShadow: 5,
+                bgcolor: "#fff",
+                borderRadius: 5
+              }}
+            >
+              <img src={pelaaja.headshot} alt={`Kuva pelaajasta ${pelaaja.fullName}`} style={{ width: '100%', borderRadius: 50 }} />
+            </Box>
 
               {/* Perustiedot */}
-              <Grid item xs={3}>
-                <Typography variant="h4" sx={{ 
-                  fontWeight: 'bold', 
-                  whiteSpace: 'nowrap',
-                  marginBottom: '5px' 
-                }}>
+              <Box
+                sx={{
+                  flex: '1 1 auto',
+                  minWidth: '200px',
+                  ml: 3
+                }}
+              >
+                <Typography   variant="h5" fontWeight={'bold'} mb={1} >
                   {pelaaja.fullName}
                 </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <Typography variant="body1">Pituus: {pelaaja.heightInCentimeters} cm</Typography>
                   <Typography variant="body1">Paino: {pelaaja.weightInKilograms} kg</Typography>
                   <Typography variant="body1">Syntymäaika: {pelaaja.birthDate}</Typography>
                   <Typography variant="body1">Syntymäkaupunki: {pelaaja.birthCity}</Typography>
                   <Typography variant="body1">Maa: {pelaaja.birthCountry}</Typography>
                   <Typography variant="body1">Kätisyys: {pelaaja.shootsCatches}</Typography>
-                </Box>
-              </Grid>
+              </Box>
 
               {/* Draft-tiedot */}
-              <Grid item xs={3}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '16px' }}>
+              <Box
+                sx={{
+                  flex: '1 1 auto',
+                  minWidth: '155px', // Asettaa minimileveyden perustiedoille
+                }}
+              >
                   {pelaaja.draftDetails ? (
                     <>
-                      <Typography variant='h6' marginTop={'50px'}>Draft-tilastot:</Typography>
+                      <Typography variant='h6'>Draft-tilastot:</Typography>
                       <Typography variant="body1">Draft-vuosi: {pelaaja.draftDetails.year}</Typography>
                       <Typography variant="body1">Kierros: {pelaaja.draftDetails.round}</Typography>
                       <Typography variant="body1">Valinta kierroksella: {pelaaja.draftDetails.pickInRound}</Typography>
                       <Typography variant="body1">Kokonaisvalinta: {pelaaja.draftDetails.overallPick}</Typography>
                     </>
                   ) : (
-                    <Typography variant="body1">Pelaajaa ei ole varattu</Typography>
+                    <Typography>Pelaajaa ei ole varattu</Typography>
                   )}
-                </Box>
-              </Grid>
+              </Box>
 
               {/* Joukkueen logo */}
-              <Grid item xs={3}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
+              <Box
+                sx={{
+                  flex: '1 1 auto',
+                  minWidth: '150px',
+                  flexBasis: '225px', // Tämä määrittää alkukoon flex-itemille
+                  margin: '10px'
+                }}
+              >
                   <img src={pelaaja.teamLogo} alt={`Logo joukkueesta ${pelaaja.fullTeamName?.default}`} style={{ height: '150px', maxWidth: '100%' }} />
-                </Box>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
 
-            <Box sx={{ bgcolor: theme.palette.primary.main, color: theme.palette.primary.contrastText, paddingTop:"10px" }}>
+            <Box sx={{ bgcolor: theme.palette.primary.main, color: theme.palette.primary.contrastText, pt:1, pb:1 }}>
               <Typography variant="h6" marginLeft={'25px'}>
                 Uran tilastot
               </Typography>
             </Box>
 
-            <Box sx={{ overflowX: 'auto'}}>
+            <Box sx={{ overflowX: 'auto', borderTop: '3px solid rgba(224, 224, 224, 1)'}}>
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>

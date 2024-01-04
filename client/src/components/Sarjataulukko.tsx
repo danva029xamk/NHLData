@@ -37,7 +37,7 @@ const Sarjataulukko: React.FC = () => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/'); // Ohjaa käyttäjän takaisin aloitusnäkymään
+    navigate('/');
   };
 
   useEffect(() => {
