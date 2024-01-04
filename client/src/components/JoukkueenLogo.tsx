@@ -3,7 +3,7 @@ import logot from '../constants/logot';
 
 interface JoukkueenLogoProps {
     teamCode: keyof typeof logot;
-    width?: string;  // Lisätty valinnainen leveysprop
+    width?: string;
 }
   
 const JoukkueenLogo: React.FC<JoukkueenLogoProps> = ({ teamCode, width = '100px' }) => {
