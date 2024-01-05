@@ -16,7 +16,7 @@ const portti: number = Number(process.env.PORT)
 app.use(cors());
 
 app.use(express.static(path.resolve(__dirname, "public")));
-app.use(express.json()); // JSON-pyyntöjen käsittelyyn
+app.use(express.json());
 
 app.use("/teams", apiNHLTeamRouter);
 app.use("/players", apiNHLPlayerRouter);
@@ -34,13 +34,12 @@ app.use((req: express.Request, res: express.Response) => {
 
 // Välityspalvelimen määrittely
 const apiProxy = createProxyMiddleware('/api', {
-    target: 'https://api-web.nhle.com', // Korvaa tämä kohde-API:llasi
+    target: 'https://api-web.nhle.com',
     changeOrigin: true,
     pathRewrite: {
         '^/api': '', // Poistaa /api-reitin osan ennen välitystä
     },
     onProxyRes: function (proxyRes, req, res) {
-        // Lisää CORS-otsikot
         res.setHeader('Access-Control-Allow-Origin', '*');
     }
 });

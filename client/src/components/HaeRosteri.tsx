@@ -17,6 +17,7 @@ interface Pelaaja {
       default: string;
   };
   positionCode: string;
+  sweaterNumber: number;
   gamesPlayed: number;
   goals: number;
   assists: number;
@@ -44,6 +45,7 @@ interface Maalivahti {
       default: string;
   };
   gamesPlayed: number;
+  sweaterNumber: number;
   gamesStarted: number;
   wins: number;
   losses: number;
@@ -141,6 +143,7 @@ const HaeRosteri: React.FC = () => {
                   <TableHead sx={{ bgcolor: '#D3D3D3',  border: '2px solid rgba(0, 0, 0, 1)', boxShadow: 3, mb: 4 }}>
                       <TableRow>
                           <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Kuva</TableCell>
+                          <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Peli#</TableCell>
                           <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Nimi</TableCell>
                           <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Pos</TableCell>
                           <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>GP</TableCell>
@@ -179,6 +182,7 @@ const HaeRosteri: React.FC = () => {
                                   <img src={pelaaja.headshot} alt={pelaaja.firstName.default + ' ' + pelaaja.lastName.default} style={{ width: '100%', height: 'auto' }} />
                                 </Box>
                               </TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>{pelaaja.sweaterNumber}</TableCell>
                               <TableCell 
                                 sx={{ 
                                   fontWeight: 'bold', 
@@ -216,6 +220,7 @@ const HaeRosteri: React.FC = () => {
                     <TableHead sx={{ bgcolor: '#D3D3D3', border: '2px solid rgba(0, 0, 0, 1)', boxShadow: 3, mb: 4 }}>
                         <TableRow>
                             <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Kuva</TableCell>
+                            <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Peli#</TableCell>
                             <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Nimi</TableCell>
                             <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Pelatut Pelit</TableCell>
                             <TableCell sx={{ color: '#000', fontWeight: 'bold'}}>Aloitetut Pelit</TableCell>
@@ -253,6 +258,7 @@ const HaeRosteri: React.FC = () => {
                                     <img src={maalivahti.headshot} alt={maalivahti.firstName.default + ' ' + maalivahti.lastName.default} style={{ width: '100%', height: 'auto' }} />
                                   </Box>
                                 </TableCell>
+                                <TableCell>{maalivahti.sweaterNumber}</TableCell>
                                 <TableCell 
                                 sx={{  
                                   fontWeight: 'bold', 

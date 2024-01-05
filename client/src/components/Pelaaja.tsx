@@ -61,19 +61,25 @@ interface PelaajaData {
     regularSeason: {
       career: {
         gamesPlayed: number;
-        goals: number;
-        assists: number;
-        points: number;
-        plusMinus: number;
-        pim: number;
-        gameWinningGoals: number;
-        otGoals: number;
-        shots: number;
-        shootingPctg: number;
-        powerPlayGoals: number;
-        powerPlayPoints: number;
-        shorthandedGoals: number;
-        shorthandedPoints: number;
+        goals?: number;
+        assists?: number;
+        points?: number;
+        plusMinus?: number;
+        pim?: number;
+        gameWinningGoals?: number;
+        wins?: number;
+        losses?: number;
+        otLosses?: number;
+        shutouts?: number;
+        goalsAgainstAvg?: number;
+        savePctg?: number;
+        otGoals?: number;
+        shots?: number;
+        shootingPctg?: number;
+        powerPlayGoals?: number;
+        powerPlayPoints?: number;
+        shorthandedGoals?: number;
+        shorthandedPoints?: number;
       };
     };
   };
@@ -195,8 +201,7 @@ const Pelaaja: React.FC = () => {
               padding: 2,
               '& > *': {
                 margin: '10px',
-                flex: '1 1 0', // Kaikille lapsielementeille annetaan mahdollisuus kasvaa ja kutistua tasaisesti
-                // flex-arvo '1 1 0' tarkoittaa: kasvaa yhtä suureksi, kutistu tarvittaessa, lähtökohta 0%
+                flex: '1 1 0',
               },
             }}
           >
@@ -238,7 +243,7 @@ const Pelaaja: React.FC = () => {
               <Box
                 sx={{
                   flex: '1 1 auto',
-                  minWidth: '155px', // Asettaa minimileveyden perustiedoille
+                  minWidth: '155px',
                 }}
               >
                   {pelaaja.draftDetails ? (
@@ -259,7 +264,7 @@ const Pelaaja: React.FC = () => {
                 sx={{
                   flex: '1 1 auto',
                   minWidth: '150px',
-                  flexBasis: '225px', // Tämä määrittää alkukoon flex-itemille
+                  flexBasis: '225px',
                   margin: '10px'
                 }}
               >
@@ -275,39 +280,89 @@ const Pelaaja: React.FC = () => {
 
             <Box sx={{ overflowX: 'auto', borderTop: '3px solid rgba(224, 224, 224, 1)'}}>
               <Table stickyHeader>
-                <TableHead>
+                <TableHead sx={{
+                  '.MuiTableCell-head': { // Tyyli jokaiselle otsikkosolulle erikseen
+                    bgcolor: '#D3D3D3 !important', // Harmaa taustaväri, pakotettu
+                    color: '#000000 !important', // Musta tekstinväri, pakotettu
+                  }
+                }}>
                   <TableRow>
-                    <TableCell align='right'>Pelatut Pelit</TableCell>
-                    <TableCell align='right'>Maalit</TableCell>
-                    <TableCell align='right'>Syötöt</TableCell>
-                    <TableCell align='right'>Pisteet</TableCell>
-                    <TableCell align='right'>Laukaukset</TableCell>
-                    <TableCell align='right'>Laukaisu%</TableCell>
-                    <TableCell align='right'>Jäähy-minuutit</TableCell>
-                    <TableCell align='right'>Voitto-maalit</TableCell>
-                    <TableCell align='right'>JA-maalit</TableCell>
-                    <TableCell align='right'>YV-maalit</TableCell>
-                    <TableCell align='right'>YV-pisteet</TableCell>
-                    <TableCell align='right'>AV-maalit</TableCell>
-                    <TableCell align='right'>AV-pisteet</TableCell>
+                  {isGoalie ? (
+                      // Maalivahdin tilastojen otsikot
+                      <>
+                        <TableCell align='right'>Pelatut Pelit</TableCell>
+                        <TableCell align='right'>Voitot</TableCell>
+                        <TableCell align='right'>Häviöt</TableCell>
+                        <TableCell align='right'>JA-häviöt</TableCell>
+                        <TableCell align='right'>GAA</TableCell>
+                        <TableCell align='right'>Torjunta%</TableCell>
+                        <TableCell align='right'>Nollapelit</TableCell>
+                      </>
+                    ) : (
+                      // Kenttäpelaajan tilastojen otsikot
+                      <>
+                        <TableCell align='right'>Pelatut Pelit</TableCell>
+                        <TableCell align='right'>Maalit</TableCell>
+                        <TableCell align='right'>Syötöt</TableCell>
+                        <TableCell align='right'>Pisteet</TableCell>
+                        <TableCell align='right'>Laukaukset</TableCell>
+                        <TableCell align='right'>Laukaisu%</TableCell>
+                        <TableCell align='right'>Jäähy-minuutit</TableCell>
+                        <TableCell align='right'>Voitto-maalit</TableCell>
+                        <TableCell align='right'>JA-maalit</TableCell>
+                        <TableCell align='right'>YV-maalit</TableCell>
+                        <TableCell align='right'>YV-pisteet</TableCell>
+                        <TableCell align='right'>AV-maalit</TableCell>
+                        <TableCell align='right'>AV-pisteet</TableCell>
+                      </>
+                    )}
                   </TableRow>
                 </TableHead>
                 {pelaaja && pelaaja.featuredStats  && pelaaja.featuredStats.regularSeason && pelaaja.featuredStats.regularSeason.career && (
-                  <TableBody>
+                  <TableBody sx={{
+                    '& .MuiTableRow-root:nth-child(odd)': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                    },
+                    '& .MuiTableRow-root:nth-child(even)': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                    }
+                  }}>
                     <TableRow>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.gamesPlayed}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.goals}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.assists}</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: 'bold'}}>{pelaaja.featuredStats.regularSeason.career.points}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shots}</TableCell>
-                      <TableCell align="right">{(pelaaja.featuredStats.regularSeason.career.shootingPctg * 100).toFixed(1)}%</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.pim}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.gameWinningGoals}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.otGoals}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.powerPlayGoals}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.powerPlayPoints}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shorthandedGoals}</TableCell>
-                      <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shorthandedPoints}</TableCell>
+                    {isGoalie ? (
+                        // Maalivahdin tilastojen arvot
+                        <>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.gamesPlayed}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.wins}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.losses}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.otLosses}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.goalsAgainstAvg}</TableCell>
+                          <TableCell align="center">{pelaaja.featuredStats.regularSeason.career.savePctg 
+                            ? (pelaaja.featuredStats.regularSeason.career.savePctg * 100).toFixed(1) + '%'
+                            : 'N/A'
+                          }</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shutouts}</TableCell>
+                        </>
+                      ) : (
+                        // Kenttäpelaajan tilastojen arvot
+                        <>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.gamesPlayed}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.goals}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.assists}</TableCell>
+                          <TableCell align="right" sx={{ fontWeight: 'bold'}}>{pelaaja.featuredStats.regularSeason.career.points}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shots}</TableCell>
+                          <TableCell align="center">{pelaaja.featuredStats.regularSeason.career.shootingPctg 
+                            ? (pelaaja.featuredStats.regularSeason.career.shootingPctg * 100).toFixed(1) + '%'
+                            : 'N/A'
+                          }</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.pim}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.gameWinningGoals}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.otGoals}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.powerPlayGoals}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.powerPlayPoints}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shorthandedGoals}</TableCell>
+                          <TableCell align="right">{pelaaja.featuredStats.regularSeason.career.shorthandedPoints}</TableCell>
+                      </>
+                        )}
                     </TableRow>
                   </TableBody>
                 )}
@@ -316,12 +371,12 @@ const Pelaaja: React.FC = () => {
 
             <Box sx={{ borderTop:'5px solid rgba(224, 224, 224, 1)', bgcolor: theme.palette.primary.main, color: theme.palette.primary.contrastText, paddingTop:"10px" }}>
               
-              <Typography variant="h6" marginLeft={'25px'}>
+              <Typography variant="h6" ml={'25px'}>
                 Tilastot kausittain
               </Typography>
 
-              <Box marginLeft={'25px'} marginBottom={'15px'}>
-                <FormControl variant='outlined' sx={{ backgroundColor: 'white', borderRadius: 1, marginBottom: '10px' }}>
+              <Box ml={'25px'}>
+                <FormControl variant='outlined' sx={{ backgroundColor: 'white', borderRadius: 1, mb: '10px' }}>
                   <Select
                     labelId="gametype-label"
                     id="gametype-select"
@@ -331,8 +386,8 @@ const Pelaaja: React.FC = () => {
                     MenuProps={{
                       PaperProps: {
                         sx: {
-                          backgroundColor: 'white', // Asettaa pudotusvalikon taustan valkoiseksi
-                          color: 'black' // Asettaa pudotusvalikon tekstin mustaksi
+                          backgroundColor: 'white', 
+                          color: 'black' 
                         }
                       }
                     }}
@@ -345,8 +400,13 @@ const Pelaaja: React.FC = () => {
             </Box>
 
             <Box sx={{ overflowX: 'auto' }}>
-              <Table stickyHeader>
-                <TableHead>
+              <Table>
+                <TableHead sx={{
+                  '.MuiTableCell-head': { 
+                    bgcolor: '#D3D3D3 !important',
+                    color: '#000000 !important',
+                  }
+                }}>
                   <TableRow>
                     {/* Otsikot riippuen pelaajan pelipaikasta */}
                     {isGoalie ? (
@@ -387,7 +447,14 @@ const Pelaaja: React.FC = () => {
                     )}
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody sx={{
+                    '& .MuiTableRow-root:nth-child(odd)': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                    },
+                    '& .MuiTableRow-root:nth-child(even)': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                    }
+                  }}>
                   {näytettävätTilastot.map((season, index) => (
                     <TableRow key={index}>
                       {isGoalie ? (

@@ -7,6 +7,7 @@ import JoukkueenValinta from "./components/JoukkueenValinta";
 import Sarjataulukko from "./components/Sarjataulukko";
 import defaultTheme, { getTeamTheme } from './themes'; // Oletetaan että tämä on polku themes.ts tiedostoon
 import teamColors from './constants/colours'; // Oletetaan että tämä on polku teamColors.ts tiedostoon
+import Pistetilastot from "./components/Pistetilastot";
 
 const App: React.FC = (): React.ReactElement => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const App: React.FC = (): React.ReactElement => {
             <Routes>
               <Route path="/" element={<JoukkueenValinta />} />
               <Route path="/standings" element={<Sarjataulukko />} />
+              <Route path="/points" element={<Pistetilastot />} />
               <Route path="/teams/:teamCode" element={<HaeRosteri />} />
               <Route path="/teams/:teamCode/players/:id" element={<Pelaaja />} />
             </Routes>

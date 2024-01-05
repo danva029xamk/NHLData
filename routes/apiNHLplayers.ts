@@ -38,8 +38,14 @@ apiNHLPlayerRouter.get('/player/:player/game-log/now', async (req, res) => {
 
 // Hae nykyiset kenttäpelaajien tilastojen johtajat
 apiNHLPlayerRouter.get('/skater-stats-leaders/current', async (req, res) => {
+    const { categories, limit } = req.query;
     try {
-        const vastaus = await axios.get('https://api-web.nhle.com/v1/skater-stats-leaders/current');
+        const vastaus = await axios.get('https://api-web.nhle.com/v1/skater-stats-leaders/current', {
+            params: {
+                categories,
+                limit
+            }
+        });
         res.json(vastaus.data);
     } catch (error) {
         res.status(500).send('Virhe haettaessa kenttäpelaajien tilastojen johtajia.');

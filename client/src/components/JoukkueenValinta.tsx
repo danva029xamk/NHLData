@@ -21,13 +21,20 @@ const JoukkueenValinta: React.FC = () => {
     navigate('/standings'); // Ohjaa käyttäjän /standings-reitille
   };
 
+  const haePistetilastot = () => {
+    navigate('/points'); // Ohjaa käyttäjän /points-reitille
+  };
+
   return (
     <Box sx={{ padding: 3, minHeight: '100vh', mx: 'auto', maxWidth: 'sm' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 3 }}>
         <img src={logot.NHL} alt="NHL Logo" style={{ height: '100px' }}/>
       </Box>
       <Button variant="contained" color="secondary" onClick={haeSarjataulukko} sx={{ width: '100%', mb: 3 }}>
-        Katso Sarjataulukko
+        Sarjataulukko
+      </Button>
+      <Button variant="contained" color="primary" onClick={haePistetilastot} sx={{ width: '100%', mb: 3 }}>
+        Pistepörssi
       </Button>
       <Typography variant='h5' sx={{ marginBottom: 2, textAlign: 'center' }}>Joukkueen kokoonpanot</Typography>
       <FormControl fullWidth sx={{ marginBottom: 2, bgcolor: '#F5F5F5'}}>
