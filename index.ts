@@ -11,7 +11,7 @@ import apiNHLGamesRouter from './routes/apiNHLgames';
 dotenv.config();
 
 const app: express.Application = express();
-const portti: number = Number(process.env.PORT)
+const portti: number = Number(process.env.PORT) || 3110;
 
 app.use(cors());
 
@@ -47,8 +47,6 @@ const apiProxy = createProxyMiddleware('/api', {
 // Käytä välityspalvelinta tietyille reiteille
 app.use('/api', apiProxy);
 
-
-// Palvelimen käynnistys
 app.listen(portti, () => {
     console.log(`Palvelin käynnistyi porttiin: ${portti}`);    
 });
