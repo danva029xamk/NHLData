@@ -111,9 +111,23 @@ const HaeRosteri: React.FC = () => {
       <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', border: '1px solid rgba(224, 224, 224, 1)', boxShadow: 3 }}>
         <Grid container spacing={2} sx={{ padding: 3 }}>
           <Grid item xs={12}>
-            <Button variant="contained" onClick={handleBackClick}>
-              Palaa Etusivulle
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+              <Button 
+                variant="contained"
+                onClick={handleBackClick}
+                sx={{ width: '48%' }}
+                >
+                Palaa Etusivulle
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => navigate(`/teams/${teamCode}/schedule`)}
+                sx={{ width: '48%' }}
+              >
+                Katso Kalenteri
+              </Button>
+            </Box>
             <Typography 
               variant="h4" 
               sx={{ 

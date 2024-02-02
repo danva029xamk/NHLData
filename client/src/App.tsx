@@ -5,21 +5,21 @@ import Pelaaja from "./components/Pelaaja";
 import HaeRosteri from "./components/HaeRosteri";
 import JoukkueenValinta from "./components/JoukkueenValinta";
 import Sarjataulukko from "./components/Sarjataulukko";
-import defaultTheme, { getTeamTheme } from './themes'; // Oletetaan että tämä on polku themes.ts tiedostoon
-import teamColors from './constants/colours'; // Oletetaan että tämä on polku teamColors.ts tiedostoon
+import defaultTheme, { getTeamTheme } from './themes'; 
+import teamColors from './constants/colours'; 
 import Pistetilastot from "./components/Pistetilastot";
+import Kalenteri from "./components/Kalenteri";
 
 const App: React.FC = (): React.ReactElement => {
   const location = useLocation();
 
-  const teamCode = location.pathname.split('/')[2] || 'default'; // Jos ei joukkuetta, käytetään oletusteemaa
+  const teamCode = location.pathname.split('/')[2] || 'default';
   
-  // Luodaan muistissa pidettävä joukkueen teema, jotta se ei luo uutta joka renderöinnillä
   const theme = useMemo(() => {
     if (teamCode in teamColors) {
       return getTeamTheme(teamCode as keyof typeof teamColors);
     }
-    return defaultTheme; // Jos joukkueen koodia ei löydy, käytetään oletusteemaa
+    return defaultTheme; 
   }, [teamCode]);
 
   return (
@@ -32,6 +32,7 @@ const App: React.FC = (): React.ReactElement => {
               <Route path="/points" element={<Pistetilastot />} />
               <Route path="/teams/:teamCode" element={<HaeRosteri />} />
               <Route path="/teams/:teamCode/players/:id" element={<Pelaaja />} />
+              <Route path="/teams/:teamCode/schedule" element={<Kalenteri />} />
             </Routes>
         </Container>
       </Box>

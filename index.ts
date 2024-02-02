@@ -11,12 +11,15 @@ import apiNHLGamesRouter from './routes/apiNHLgames';
 dotenv.config();
 
 const app: express.Application = express();
-const portti: number = Number(process.env.PORT) || 3110;
+const portti: number = Number(process.env.PORT) || 3110;
 
 app.use(cors());
 
 app.use(express.static(path.resolve(__dirname, "public")));
 app.use(express.json());
+
+// Käsitellään turhat favicon-pyynnöt
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.use("/teams", apiNHLTeamRouter);
 app.use("/players", apiNHLPlayerRouter);

@@ -44,4 +44,18 @@ apiNHLGamesRouter.get('/schedule-calendar/now', async (req, res) => {
     }
 });
 
+// Hae pelikalenteri tietylle joukkueelle
+apiNHLGamesRouter.get('/schedule-calendar/:teamAbbrev/now', async (req, res) => {
+    const { teamAbbrev } = req.params;
+    const url = `https://api-web.nhle.com/v1/club-schedule-season/${teamAbbrev}/now`;
+
+    try {
+        const vastaus = await axios.get(url);
+        res.json(vastaus.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Virhe haettaessa kalenteria.');
+    }
+});
+
 export default apiNHLGamesRouter;
