@@ -70,14 +70,14 @@ const HaeRosteri: React.FC = () => {
   const [maalivahdit, setMaalivahdit] = useState<Maalivahti[]>([]);
   const [virhe, setVirhe] = useState<string>('');
   const { teamCode } = useParams<{ teamCode: any }>();
-  const [theme, setTheme] = useState(() => getTeamTheme(teamCode || 'ANA')); // Oletusjoukkueen koodi, jos teamCode on undefined
+  const [theme, setTheme] = useState(() => getTeamTheme(teamCode || 'ANA'));
   const navigate = useNavigate();
 
   const joukkueenNimi = joukkueet.find(j => j.code === teamCode)?.name || 'Joukkue';
 
 
   const handleBackClick = () => {
-    navigate('/'); // Ohjaa käyttäjän takaisin etusivulle
+    navigate('/');
   };
 
   const handlePlayerClick = (playerId: number) => {
@@ -168,7 +168,7 @@ const HaeRosteri: React.FC = () => {
                           <TableRow 
                             key={pelaaja.playerId}
                             onClick={() => handlePlayerClick(pelaaja.playerId)}
-                            style={{ cursor: 'pointer' }} // Lisää kursorin muutos osoittamaan klikattavuutta
+                            style={{ cursor: 'pointer' }}
                             >
                               <TableCell component="th" scope="row">
                                 <Box
@@ -244,15 +244,15 @@ const HaeRosteri: React.FC = () => {
                         {maalivahdit.map((maalivahti) => (
                             <TableRow key={maalivahti.playerId}                            
                             onClick={() => handlePlayerClick(maalivahti.playerId)}
-                            style={{ cursor: 'pointer' }} // Lisää kursorin muutos osoittamaan klikattavuutta
+                            style={{ cursor: 'pointer' }}
                             >
                                 <TableCell component="th" scope="row">
                                   <Box
                                     sx={{
                                       display: 'flex',
                                       width: '50px',
-                                      backgroundColor: '#fff', // Valkoinen tausta kuvalle
-                                      borderRadius: '4px' // Pyöristetyt kulmat
+                                      backgroundColor: '#fff', 
+                                      borderRadius: '4px' 
                                     }}
                                   >
                                     <img src={maalivahti.headshot} alt={maalivahti.firstName.default + ' ' + maalivahti.lastName.default} style={{ width: '100%', height: 'auto' }} />

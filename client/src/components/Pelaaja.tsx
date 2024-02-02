@@ -105,7 +105,7 @@ const Pelaaja: React.FC = () => {
 
 
   const handleBackClick = () => {
-    navigate(`/teams/${pelaaja?.currentTeamAbbrev}`); // Ohjaa käyttäjän takaisin edelliselle sivulle
+    navigate(`/teams/${pelaaja?.currentTeamAbbrev}`);
   };
 
   const handleGameTypeChange = (event: SelectChangeEvent<number>) => {
@@ -321,10 +321,10 @@ const Pelaaja: React.FC = () => {
                 {pelaaja && pelaaja.featuredStats  && pelaaja.featuredStats.regularSeason && pelaaja.featuredStats.regularSeason.career && (
                   <TableBody sx={{
                     '& .MuiTableRow-root:nth-child(odd)': {
-                      backgroundColor: 'rgba(0, 0, 0, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                      backgroundColor: 'rgba(0, 0, 0, 0.05)', 
                     },
                     '& .MuiTableRow-root:nth-child(even)': {
-                      backgroundColor: 'rgba(255, 255, 255, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
                     }
                   }}>
                     <TableRow>
@@ -449,10 +449,10 @@ const Pelaaja: React.FC = () => {
                 </TableHead>
                 <TableBody sx={{
                     '& .MuiTableRow-root:nth-child(odd)': {
-                      backgroundColor: 'rgba(0, 0, 0, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                      backgroundColor: 'rgba(0, 0, 0, 0.05)',
                     },
                     '& .MuiTableRow-root:nth-child(even)': {
-                      backgroundColor: 'rgba(255, 255, 255, 0.05)', // Tämä on esimerkki, korvaa väri ja opaciteetti toivotulla
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
                     }
                   }}>
                   {näytettävätTilastot.map((season, index) => (

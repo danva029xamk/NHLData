@@ -36,17 +36,17 @@ const getCategoryLabel = (category: string) => {
 
 const formatValue = (category: string, value: number) => {
     if (category === 'faceoffLeaders') {
-      return `${(value * 100).toFixed(1)}%`; // Muunnetaan prosenteiksi
+      return `${(value * 100).toFixed(1)}%`;
     } else if (category === 'toi') {
-      return Math.floor(value); // Kokonaisluku
+      return Math.floor(value);
     } else if (category === 'savePctg') {
         return `${(value * 100).toFixed(1)}%`;
     } else if (category === 'goalsAgainstAverage') {
         return `${value.toFixed(2)}`;
     } else if (category === 'toi') {
-        return Math.floor(value); // Kokonaisluku
+        return Math.floor(value);
     } else {
-      return value; // Muut arvot sellaisenaan
+      return value;
     }
   };
 
@@ -67,13 +67,12 @@ const Pistetilastot: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Kun playerType vaihtuu, päivitä kategoria oletusarvoihin
     if (playerType === 'F') {
-        setKategoria('points'); // Kenttäpelaajien oletuskategoria
-        setPositionFilter('all'); // Varmistetaan, että suodatin on neutraalissa asennossa
+        setKategoria('points');
+        setPositionFilter('all'); 
       } else {
-        setKategoria('wins'); // Maalivahtien oletuskategoria
-        setPositionFilter('all'); // Varmistetaan, että suodatin on neutraalissa asennossa
+        setKategoria('wins');
+        setPositionFilter('all');
       }
   }, [playerType]);
 
@@ -109,7 +108,7 @@ const Pistetilastot: React.FC = () => {
       if (positionFilter === 'all') return true;
       if (positionFilter === 'D') return pelaaja.position === 'D';
       if (positionFilter === 'F') return ['L', 'C', 'R'].includes(pelaaja.position);
-      return false; // Lisätty oletusarvoinen palautusarvo
+      return false; 
     }).slice(0, 50);
     setFilteredPlayers(suodatetutPelaajat);
   }, [pelaajat, positionFilter]);

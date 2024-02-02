@@ -18,11 +18,11 @@ const JoukkueenValinta: React.FC = () => {
   };
 
   const haeSarjataulukko = () => {
-    navigate('/standings'); // Ohjaa käyttäjän /standings-reitille
+    navigate('/standings');
   };
 
   const haePistetilastot = () => {
-    navigate('/points'); // Ohjaa käyttäjän /points-reitille
+    navigate('/points');
   };
 
   return (

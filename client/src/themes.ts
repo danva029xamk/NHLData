@@ -61,8 +61,6 @@ export const getTeamTheme = (teamCode: keyof typeof teamColors) => {
       },
 
       text: {
-        // Tarkistetaan, onko tertiary-väri määritelty ja käytetään sitä tekstin värinä
-        // Muussa tapauksessa käytetään primary-väriä
         primary: colors.tertiary ? colors.tertiary : colors.primary,
         secondary: colors.secondary,
       },

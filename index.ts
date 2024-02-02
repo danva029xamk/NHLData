@@ -22,29 +22,25 @@ app.use("/teams", apiNHLTeamRouter);
 app.use("/players", apiNHLPlayerRouter);
 app.use("/games", apiNHLGamesRouter);
 
-// Yleinen virheenkäsittelijä
 app.use(virhekasittelija);
 
-// 404-virheenkäsittelijä
 app.use((req: express.Request, res: express.Response) => {
     if (!res.headersSent) {
         res.status(404).json({ viesti: "Virheellinen reitti" });
     }
 });
 
-// Välityspalvelimen määrittely
 const apiProxy = createProxyMiddleware('/api', {
     target: 'https://api-web.nhle.com',
     changeOrigin: true,
     pathRewrite: {
-        '^/api': '', // Poistaa /api-reitin osan ennen välitystä
+        '^/api': '',
     },
     onProxyRes: function (proxyRes, req, res) {
         res.setHeader('Access-Control-Allow-Origin', '*');
     }
 });
 
-// Käytä välityspalvelinta tietyille reiteille
 app.use('/api', apiProxy);
 
 app.listen(portti, () => {

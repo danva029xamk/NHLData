@@ -34,4 +34,14 @@ apiNHLGamesRouter.get('/scoreboard/now', async (req, res) => {
     }
 });
 
+// Hae pelikalenteri
+apiNHLGamesRouter.get('/schedule-calendar/now', async (req, res) => {
+    try {
+        const vastaus = await axios.get('https://api-web.nhle.com/v1/schedule-calendar/now');
+        res.json(vastaus.data);
+    } catch (error) {
+        res.status(500).send('Virhe haettaessa kalenteria.');
+    }
+});
+
 export default apiNHLGamesRouter;
